@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Предложения обмена{% endblock %}
+{% block style%}
+  <link rel="stylesheet" href="{% static 'ads/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'ads/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'ads/proposals.css' %}">
+{% endblock %}
+
+
+    <!-- Main content will be displayed here -->
+    {% block content %}
+    <main id="main-content">
+      <div class="proposals-container">
+        <div class="header-section">
+          <h1>Предложения</h1>
+          
+<!--          <div class="proposals-tabs">-->
+<!--            <button id="received-tab" class="tab-button active">Received</button>-->
+<!--            <button id="sent-tab" class="tab-button">Sent</button>-->
+<!--          </div>-->
+          
+<!--          <div class="filters-container">-->
+<!--            <select id="status-filter">-->
+<!--              <option value="">All Statuses</option>-->
+<!--              <option value="pending">Pending</option>-->
+<!--              <option value="accepted">Accepted</option>-->
+<!--              <option value="rejected">Rejected</option>-->
+<!--            </select>-->
+<!--          </div>-->
+        </div>
+          {% for proposal in proposals%}
+        <div id="proposals-list" class="proposals-list">
+          <div class="proposal-header">
+      <h3 class="proposal-title">Предложение обмена</h3>
+      <span class="proposal-status status-{{proposal.status}}">{{proposal.status}}</span>
+    </div>
+
+    <div class="proposal-items">
+      <div class="proposal-item">
+        <div class="proposal-item-title">
+          Предложенный товар:
+        </div>
+        <p>{{proposal.ad_sender.title}}</p>
+      </div>
+
+      <div class="exchange-icon">↔</div>
+
+      <div class="proposal-item">
+        <div class="proposal-item-title">
+          Товар для обмена:
+        </div>
+        <p>{{proposal.ad_receiver.title}}</p>
+      </div>
+    </div>
+            <div class="proposal-comment">
+        <p>{{proposal.comment}}</p>
+      </div>
+            <div class="proposal-meta">
+      <span>От кого: {{proposal.ad_sender.user.username}}</span>
+      <span>Дата: {{proposal.created_at}}</span>
+      {% if proposal.status == 'accepted'%}
+                {% if proposal.ad_receiver.user == request.user %}
+                <span>Почта: {{proposal.ad_sender.user.email}}</span>
+                {% else %}
+                <span>Почта: {{proposal.ad_receiver.user.email}}</span>
+                {% endif %}
+      {% endif %}
+    </div>
+            {% if proposal.ad_sender.user != request.user and proposal.status == 'pending' %}
+            <div class="proposal-actions">
+                <a href="{% url 'proposal-accepted' proposal.id%}">
+                    <button type="submit" class="btn btn-success btn-sm action-accept" data-id="${proposal.id}">Принять</button>
+                </a>
+                <a href="{% url 'proposal-rejected' proposal.id%}">
+                    <button type="submit" class="btn btn-danger btn-sm action-reject" data-id="${proposal.id}">Отклонить</button>
+                </a>
+      </div>
+            {% endif %}
+<!--          <p id="no-proposals-message" class="empty-message hidden">No exchange proposals found.</p>-->
+        </div>
+          {% endfor %}
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Бартир - Платформа обмена предметами</p>
+    </footer>
+ {%endblock%}

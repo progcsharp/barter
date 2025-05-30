@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}SwapSpot - Exchange Items{% endblock %}</title>
+
+  {% block style %}{% endblock %}
+
+</head>
+<body>
+  <div id="app">
+    <!-- Навигация -->
+    <div id="navbar-container">
+      {% block navbar %}
+      <!-- Можно подгрузить navbar как отдельный include -->
+      {% include "partials/navbar.html" %}
+      {% endblock %}
+    </div>
+
+    <!-- Основной контент -->
+    <main id="main-content">
+      {% block content %}
+      <!-- Контент страниц будет подставляться сюда -->
+      {% endblock %}
+    </main>
+  </div>
+</body>
+</html>

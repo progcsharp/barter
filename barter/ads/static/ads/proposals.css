@@ -1,0 +1,144 @@
+/* Proposals page styles */
+.proposals-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.proposals-tabs {
+  display: flex;
+  margin-bottom: var(--space-4);
+  border-bottom: 2px solid var(--color-gray-200);
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  padding: var(--space-3) var(--space-4);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-gray-600);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.tab-button:hover {
+  color: var(--color-primary);
+}
+
+.tab-button.active {
+  color: var(--color-primary);
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-primary);
+}
+
+.proposals-list {
+  margin-top: var(--space-4);
+}
+
+.proposal-card {
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.proposal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.proposal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-3);
+}
+
+.proposal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.proposal-status {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-pending {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-800);
+}
+
+.status-accepted {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.status-rejected {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.proposal-items {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.proposal-item {
+  flex: 1;
+  padding: var(--space-3);
+  background-color: var(--color-gray-100);
+  border-radius: var(--radius);
+}
+
+.proposal-item-title {
+  font-weight: 500;
+  margin-bottom: var(--space-1);
+}
+
+.proposal-comment {
+  padding: var(--space-3);
+  background-color: var(--color-gray-50);
+  border-left: 3px solid var(--color-primary-light);
+  margin-bottom: var(--space-3);
+  color: var(--color-gray-700);
+}
+
+.proposal-meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-gray-500);
+  font-size: 0.875rem;
+}
+
+.proposal-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.exchange-icon {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin: 0 var(--space-2);
+  align-self: center;
+}

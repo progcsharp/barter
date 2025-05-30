@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}{{ad.title}}{% endblock %}
+{% block style%}
+  <link rel="stylesheet" href="{% static 'ads/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'ads/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'ads/item-detail.css' %}">
+{% endblock %}
+
+
+    <!-- Main content will be displayed here -->
+    {% block content %}
+    <main id="main-content">
+      <div class="item-detail-container">
+        <div class="back-link">
+          <a href="{%url 'index'%}">← Вернуться на главную</a>
+        </div>
+
+        <div id="item-detail" class="item-detail">
+    <img src="{{ad.image_url}}" alt="Vintage Leather Jacket" class="item-image">
+    <div class="item-content">
+      <h2 class="item-title">{{ad.title}}</h2>
+
+      <div class="item-tags">
+        <span class="item-tag tag-category">{{ad.category}}</span>
+        <span class="item-tag tag-condition">{{ad.get_condition_display}}</span>
+      </div>
+
+      <div class="item-meta">
+        <div class="meta-item">
+          <span class="meta-label">Владелец</span>
+          <span class="meta-value">{{ad.user.username}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Опубликовано</span>
+          <span class="meta-value">{{ad.created_at}}</span>
+        </div>
+      </div>
+
+      <div class="item-description">
+        <h3>Описание</h3>
+        <p>{{ad.description}}</p>
+      </div>
+    </div>
+  </div>
+          {% if user == ad.user%}
+        <div id="owner-actions" class="action-buttons owner-only">
+          <a href="{%url 'ad-edit' ad.id%}"> <button id="edit-item-btn" class="btn btn-secondary">Редактировать</button></a>
+          <button id="delete-item-btn" class="btn btn-danger">Удалить</button>
+        </div>
+
+        {% endif %}
+          {%if user.is_authenticated and user != ad.user%}
+        <div id="user-actions" class="action-buttons user-only">
+          <button id="propose-exchange-btn" class="btn btn-accent">Предложить обмен</button>
+        </div>
+      </div>
+        {% endif%}
+
+      <!-- Delete confirmation modal -->
+      <div id="delete-modal" class="modal">
+        <div class="modal-content">
+          <h3>Подтвердить удаление</h3>
+          <p id="delete-confirmation-text">Вы уверены, что хотите удалить этот элемент?</p>
+          <div class="modal-actions">
+            <a href="{% url 'ad-delete' ad.id%}"> <button id="confirm-delete" class="btn btn-danger">Удалить</button></a>
+            <button id="cancel-delete" class="btn btn-secondary">Назад</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange proposal modal -->
+      <div id="exchange-modal" class="modal">
+        <div class="modal-content">
+          <h3>Предложить обмен</h3>
+          <form method="post" action="{% url 'proposal-create' ad.id%}" id="exchange-form">
+              {% csrf_token %}
+            <div class="form-group">
+              <label for="your-item">Выберите товар для обмена:</label>
+              <select id="your-item" name="your-item" required="">
+                <!-- User's items will be loaded here -->
+                <option value="">Выберите объявление</option>
+                  {% for user_ad in ads%}
+                    <option value="{{user_ad.id}}">{{user_ad.title}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exchange-comment">Комментарий:</label>
+              <textarea id="exchange-comment" name="comment" rows="3"></textarea>
+
+            </div>
+
+            <div class="modal-actions">
+              <button type="submit" class="btn btn-accent">Отправить предложение</button>
+              <button type="button" id="cancel-exchange" class="btn btn-secondary">Назад</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+<script>
+{% if user == ad.user%}
+    const btn_delete = document.querySelector("#delete-item-btn")
+    const modal_delete = document.querySelector("#delete-modal")
+
+    btn_delete.addEventListener("click", function (e) {
+      modal_delete.style.display = 'flex';
+    })
+
+    document.querySelector("#cancel-delete").addEventListener("click", function (e) {
+      e.preventDefault();
+      modal_delete.style.display = 'none';
+    })
+
+{% endif %}
+          {%if user.is_authenticated and user != ad.user%}
+
+    const btn_exchange = document.querySelector("#propose-exchange-btn")
+    const modal_exchange = document.querySelector("#exchange-modal")
+
+    btn_exchange.addEventListener("click", function (e) {
+      modal_exchange.style.display = 'flex';
+    })
+
+    document.querySelector("#cancel-exchange").addEventListener("click", function (e) {
+      e.preventDefault();
+      modal_exchange.style.display = 'none';
+    })
+{% endif%}
+
+
+
+
+
+</script>
+{%endblock%}

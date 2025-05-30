@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Мои объявления{% endblock %}
+{% block style%}
+  <link rel="stylesheet" href="{% static 'ads/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'ads/navbar.css' %}">
+{% endblock %}
+
+
+    <!-- Main content will be displayed here -->
+    {% block content %}
+    <main id="main-content">
+      <div class="my-items-container">
+        <div class="header-section">
+          <h1>Мои объявления</h1>
+            <a href="{% url 'ad-create'%}"> <button id="create-ad-button" class="btn btn-accent">Создать новое объявление</button></a>
+        </div>
+        {% if ads %}
+          <div id="ads-list" class="ads-grid">
+      {% for ad in ads%}
+            <div class="ad-card">
+            <img src="{{ad.image_url}}" class="ad-card-image">
+            <div class="ad-card-content">
+              <h3 class="ad-card-title">{{ad.title}}</h3>
+              <p class="ad-card-description">{{ad.description}}</p>
+              <div class="ad-card-meta">
+                <span class="ad-card-category">{{ad.category}}</span>
+                <span class="ad-card-condition">{{ad.get_condition_display}}</span>
+              </div>
+              <div class="ad-card-footer">
+                <span class="ad-card-date">{{ad.created_at}}</span>
+                <a href="{% url 'ad-detail' ad.id%}" class="btn btn-primary">Подробнее</a>
+              </div>
+            </div>
+            </div>
+      {%endfor%}
+</div>
+
+          {%endif%}
+      </div>
+
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Бартир - Платформа обмена предметами</p>
+    </footer>
+{% endblock %}

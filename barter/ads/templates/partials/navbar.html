@@ -1,0 +1,29 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <a href="{% url 'index' %}">
+        <span class="logo-text">Бартир</span>
+      </a>
+    </div>
+    
+    <button class="navbar-toggle" id="navbar-toggle">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    
+    <ul class="navbar-links" id="navbar-links">
+      <li><a href="{% url 'index' %}" class="active">Главная</a></li>
+      {% if user.is_authenticated %}
+        <li class="auth-hidden logged-in"><a href="{% url 'my-ads' %}">Мои объявления</a></li>
+        <li class="auth-hidden logged-in"><a href="{% url 'proposals' %}">Предложения обмена</a></li>
+        <li class="auth-hidden logged-in">
+          <a href="{% url 'logout' %}" id="logout-link">Выйти (<span id="username-display">{{user.username}}</span>)</a>
+        </li>
+      {% else %}
+        <li class="auth-hidden logged-out"><a href="{% url 'login' %}">Войти</a></li>
+        <li class="auth-hidden logged-out"><a href="{% url 'register' %}">Зарегестрироваться</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
